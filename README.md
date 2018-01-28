@@ -46,3 +46,5 @@
 * Захостить эмулятор (где?)
 
 # Картинки
+![Вид цветной карты в консоле](https://github.com/senin24/walking-dead/raw/master/src/main/resources/images/view_map.png)
+![Simple UML](https://github.com/senin24/walking-dead/raw/master/src/main/resources/images/UML.png)

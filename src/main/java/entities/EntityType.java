@@ -3,11 +3,11 @@ package entities;
 import com.diogonunes.jcdp.color.ColoredPrinter;
 import com.diogonunes.jcdp.color.api.Ansi;
 
-public enum EntityTypeEnum {
+public enum EntityType {
 
     HUMAN ("Человек", 'H', Ansi.BColor.CYAN) {
-        public FleshHuman getEntity () {
-            return new FleshHuman();
+        public Human getEntity () {
+            return new Human();
         }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
@@ -16,7 +16,7 @@ public enum EntityTypeEnum {
     },
     ZOMBIE ("Зомби", 'Z', Ansi.BColor.RED) {
         public Entity getEntity() {
-            return new FleshZombie();
+            return new Zombie();
         }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
@@ -25,7 +25,7 @@ public enum EntityTypeEnum {
     },
     STONE ("Препятствие", 'S', Ansi.BColor.WHITE) {
         public Entity getEntity() {
-            return new MaterialStone();
+            return new Stone();
         }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
@@ -34,7 +34,7 @@ public enum EntityTypeEnum {
     },
     TAKO ("Еда", 'T', Ansi.BColor.GREEN) {
         public Entity getEntity() {
-            return new MaterialTako();
+            return new Tako();
         }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
@@ -43,7 +43,7 @@ public enum EntityTypeEnum {
     },
     WEAPON ("Оружие", 'W', Ansi.BColor.BLUE) {
         public Entity getEntity() {
-            return new MaterialWeapon();
+            return new Weapon();
         }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
@@ -57,7 +57,7 @@ public enum EntityTypeEnum {
     // https://github.com/dialex/JCDP
     ColoredPrinter cp = new ColoredPrinter.Builder(1, false).build();
 
-    EntityTypeEnum(String nameEntity, char display, Ansi.BColor color) {
+    EntityType(String nameEntity, char display, Ansi.BColor color) {
         this.nameEntity = nameEntity;
         this.display = display;
         this.color = color;
@@ -74,8 +74,8 @@ public enum EntityTypeEnum {
     //method for print map
     public void printEntity (Entity entity) {
         //Human entity print field
-        if (entity.getTypeEnum() == EntityTypeEnum.HUMAN){
-            FleshHuman human = (FleshHuman) entity;
+        if (entity.getType() == EntityType.HUMAN){
+            Human human = (Human) entity;
             String displayHuman = "H";
             if (human.isMale()) {
                 displayHuman += "M";

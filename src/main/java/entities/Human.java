@@ -2,14 +2,16 @@ package entities;
 
 import utils.Util;
 
-public class FleshHuman extends FleshAbstract implements Entity {
+public class Human extends AbstractFlesh implements Entity {
 
     private boolean isMale; //only zombies don't have sex ((
     private boolean isWeapon;
 
-    public FleshHuman() {
-        super(EntityTypeEnum.HUMAN);
-        super.stepsToDead = HUMAN_STEPS_DEAD;
+    int HUMAN_STEPS_DEAD = 5;
+
+    public Human() {
+        super(EntityType.HUMAN);
+        stepsToDead = HUMAN_STEPS_DEAD;
         this.isMale = Util.getRandom();
     }
 
@@ -34,6 +36,6 @@ public class FleshHuman extends FleshAbstract implements Entity {
 
 
     public void resetStepsToDead() {
-        super.stepsToDead = HUMAN_STEPS_DEAD;
+        stepsToDead = HUMAN_STEPS_DEAD;
     }
 }

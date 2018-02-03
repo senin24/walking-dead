@@ -1,10 +1,10 @@
 package entities;
 
-public abstract class FleshAbstract extends EntityAbstract implements Flesh {
+public abstract class AbstractFlesh extends AbstractEntity implements Flesh {
 
     protected int stepsToDead;
 
-    public FleshAbstract(EntityTypeEnum typeEnum) {
+    public AbstractFlesh(EntityType typeEnum) {
         super(typeEnum);
     }
 

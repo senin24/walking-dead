@@ -9,16 +9,6 @@ public class Location {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

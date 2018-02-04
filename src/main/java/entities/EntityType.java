@@ -3,48 +3,41 @@ package entities;
 import com.diogonunes.jcdp.color.ColoredPrinter;
 import com.diogonunes.jcdp.color.api.Ansi;
 
+//Utility Enum class for print entities
+
 public enum EntityType {
 
     HUMAN ("Человек", 'H', Ansi.BColor.CYAN) {
-        public Human getEntity () {
-            return new Human();
-        }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
             cp.clear();
         }
     },
     ZOMBIE ("Зомби", 'Z', Ansi.BColor.RED) {
-        public Entity getEntity() {
-            return new Zombie();
-        }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
             cp.clear();
         }
     },
     STONE ("Препятствие", 'S', Ansi.BColor.WHITE) {
-        public Entity getEntity() {
-            return new Stone();
-        }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
             cp.clear();
         }
     },
     TAKO ("Еда", 'T', Ansi.BColor.GREEN) {
-        public Entity getEntity() {
-            return new Tako();
+        public void printEntity() {
+            cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
+            cp.clear();
         }
+    },
+    BLANK ("Пусто", '.', Ansi.BColor.GREEN) {
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
             cp.clear();
         }
     },
     WEAPON ("Оружие", 'W', Ansi.BColor.BLUE) {
-        public Entity getEntity() {
-            return new Weapon();
-        }
         public void printEntity() {
             cp.print(" " + this.display + " ", Ansi.Attribute.BOLD, Ansi.FColor.WHITE, this.color);
             cp.clear();
@@ -67,7 +60,6 @@ public enum EntityType {
         return nameEntity;
     }
 
-    public abstract Entity getEntity ();
     //method for print Memo
     public abstract void printEntity ();
 

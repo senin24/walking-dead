@@ -134,12 +134,16 @@ public class Island {
         int x1, y1;
         Map<Location, Entity> around = new HashMap<>();
         Location location;
-        for (int i = -1; i < 3; i++){
+        for (int i = -1; i < 2; i++){
             x1 = x + i;
-            if (x1 < 0 || x1 > width) continue;
-            for (int j = -1; j < 3; j++) {
+            //check that x1 steel exist inside island
+            if (x1 < 0 || x1 >= width) continue;
+            for (int j = -1; j < 2; j++) {
                 y1 = y + j;
-                if (y1 < 0 || y1 > height) continue;
+                //check that y1 steel exist inside island
+                if (y1 < 0 || y1 >= height) continue;
+                //check that x1 and y1 not equals x and y of entity
+                if (y1 == y && x1 == x) continue;
                 location = new Location(x1, y1);
                 around.put(location, entities.get(location));
             }

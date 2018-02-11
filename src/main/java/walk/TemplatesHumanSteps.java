@@ -10,7 +10,7 @@ public class TemplatesHumanSteps {
 
     public static final List<TemplateHuman> templatesHumanSteps = new ArrayList<TemplateHuman>();
 
-    {
+    static {
         //isWeapon false, steps Normal, Weapon around
         int score = 100;
         templatesHumanSteps.add(new TemplateHuman(

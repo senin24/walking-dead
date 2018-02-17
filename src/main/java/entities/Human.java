@@ -15,7 +15,7 @@ public class Human extends AbstractFlesh implements Entity {
     private boolean isWeapon;
     private List<TemplateHuman> currentVariantsSteps;
 
-    private final static int HUMAN_STEPS_DEAD = 5;
+    private final static int HUMAN_STEPS_DEAD = 50;
 
     public Human(Location location) {
         super(EntityType.HUMAN,location);
@@ -92,9 +92,10 @@ public class Human extends AbstractFlesh implements Entity {
         Human human = (Human) o;
 
         if (isMale != human.isMale) return false;
-        if (steps.getCurrentStepRange() != human.steps.getCurrentStepRange()) {
-            return false;
-        }
+//        if (steps.getCurrentStepRange() != human.steps.getCurrentStepRange()) {
+//            return false;
+//        }
+        if (!this.steps.equals(human.steps)) return false;
         return isWeapon == human.isWeapon;
     }
 

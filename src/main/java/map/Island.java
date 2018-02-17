@@ -4,6 +4,7 @@ import entities.*;
 import utils.Util;
 import walk.TemplateHuman;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +32,22 @@ public class Island {
 
     public static void createNewEntity(EntityType type) {
         Location location;
-        do {
-            location = new Location(Util.getRandom(width), Util.getRandom(height));
-        } while (!(entities.get(location) instanceof Blank));
+        Map<Location, Entity> blank = new HashMap<>();
+        // get all blank entities
+        List<Location> blankLocations = new ArrayList<>();
+        for (Map.Entry<Location, Entity> e: entities.entrySet()){
+            if (e.getValue() instanceof Blank) {
+                blankLocations.add(e.getKey());
+            }
+        }
+        if (blank.size() == 0) return; // overpopulation! starvation coming soon :(
+        // Get random blank space
+        Location randomLocation = blankLocations.get(Util.getRandom(blank.size()));
+        // Create new entity
         if (type == EntityType.HUMAN) {
-            entities.put(location, new Human(location));
+            entities.put(randomLocation, new Human(randomLocation));
         } else {
-            entities.put(location, new Tako());
+            entities.put(randomLocation, new Tako());
         }
     }
 
@@ -102,6 +112,13 @@ public class Island {
     private int getCountEntity(EntityType type) {
         int i = 0;
         for (Map.Entry<Location, Entity> e: entities.entrySet()){
+            Entity currentEntity = e.getValue();
+            // Step of itteration skip if current Human o Zombie is dead
+            if (currentEntity instanceof Flesh) {
+                if (((Flesh)currentEntity).isDead()) {
+                    continue;
+                }
+            }
             if (e.getValue().getType() == type) i++;
         }
         return i;
@@ -110,19 +127,22 @@ public class Island {
     public boolean turn() {
         for (Map.Entry<Location, Entity> e: entities.entrySet()){
             Entity entity = e.getValue();
-            //Material don't walk
-            if (entity instanceof Material) continue;
+            if (entity instanceof Material) continue; // Material don't walk
             Flesh flesh = (Flesh) entity;
+            Location beforeLocation = flesh.getLocation();
             Map<Location, Entity> newField = flesh.walk(getAroundEntities(e.getKey()));
-            entities.put(flesh.getLocation(), new Blank());
+            entities.put(beforeLocation, new Blank());
             entities.putAll(newField);
+//            printIsland();
         }
-        printIsland();
+
         //Is Game Over?
         if (getCountEntity(EntityType.HUMAN) == 0) {
+            printIsland();
             System.out.println ("ZOMBIE WIN!!!");
             return false;
         } else if (getCountEntity(EntityType.ZOMBIE) == 0){
+            printIsland();
             System.out.println ("HUMAN WIN!!!");
             return false;
         }

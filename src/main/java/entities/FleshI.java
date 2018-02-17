@@ -4,9 +4,9 @@ import map.Location;
 
 import java.util.Map;
 
-public interface Flesh extends Entity {
+public interface FleshI extends EntityI {
 
-    Map<Location, Entity> walk(Map<Location, Entity> around);
+    Map<Location, EntityI> walk(Map<Location, EntityI> around);
 
     void resetStepsToDead();
 

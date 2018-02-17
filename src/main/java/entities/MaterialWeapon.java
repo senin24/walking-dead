@@ -1,8 +1,10 @@
 package entities;
 
-public class Weapon extends AbstractEntity implements Material {
+import helpers.EntityType;
 
-    public Weapon() {
+public class MaterialWeapon extends AbstractEntity implements MaterialI {
+
+    public MaterialWeapon() {
         super(EntityType.WEAPON);
     }
 
@@ -14,6 +16,6 @@ public class Weapon extends AbstractEntity implements Material {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        return o instanceof Weapon;
+        return o instanceof MaterialWeapon;
     }
 }

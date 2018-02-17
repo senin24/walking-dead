@@ -1,24 +1,24 @@
-package walk;
+package helpers;
 
-import entities.Entity;
-import entities.Human;
+import entities.EntityI;
+import entities.FleshHuman;
 
 import java.util.Comparator;
 
 public class TemplateHuman {
 
-    private Human human;
-    private Entity entity;
+    private FleshHuman fleshHuman;
+    private EntityI entityI;
     private int score;
 
-    public TemplateHuman(Human human, Entity entity, int score) {
-        this.human = human;
-        this.entity = entity;
+    public TemplateHuman(FleshHuman fleshHuman, EntityI entityI, int score) {
+        this.fleshHuman = fleshHuman;
+        this.entityI = entityI;
         this.score = score;
     }
 
-    public Entity getEntity() {
-        return entity;
+    public EntityI getEntityI() {
+        return entityI;
     }
 
     public static Comparator<TemplateHuman> getCompByScore() {
@@ -38,14 +38,14 @@ public class TemplateHuman {
 
         TemplateHuman that = (TemplateHuman) o;
 
-        if (!human.equals(that.human)) return false;
-        return entity.equals(that.entity);
+        if (!fleshHuman.equals(that.fleshHuman)) return false;
+        return entityI.equals(that.entityI);
     }
 
     @Override
     public int hashCode() {
-        int result = human.hashCode();
-        result = 31 * result + entity.hashCode();
+        int result = fleshHuman.hashCode();
+        result = 31 * result + entityI.hashCode();
         return result;
     }
 }

@@ -1,18 +1,19 @@
 package entities;
 
-import entities.fields.Steps;
+import helpers.EntityType;
+import helpers.Steps;
 import map.Location;
 
 import java.util.Map;
 
-public abstract class AbstractFlesh extends AbstractEntity implements Flesh {
+public abstract class FleshIAbstract extends AbstractEntity implements FleshI {
 
     protected Location currentLocation;
     protected Steps steps;
     protected boolean isDead;
 
 
-    public AbstractFlesh(EntityType typeEnum, Location currentLocation) {
+    public FleshIAbstract(EntityType typeEnum, Location currentLocation) {
         super(typeEnum);
         this.currentLocation = currentLocation;
     }
@@ -25,6 +26,6 @@ public abstract class AbstractFlesh extends AbstractEntity implements Flesh {
         return isDead;
     }
 
-    public abstract Map<Location, Entity> walk(Map<Location, Entity> around);
+    public abstract Map<Location, EntityI> walk(Map<Location, EntityI> around);
 
 }

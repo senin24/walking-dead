@@ -1,15 +1,16 @@
 package entities;
 
-import entities.fields.Steps;
+import helpers.EntityType;
+import helpers.Steps;
 import map.Island;
 import map.Location;
-import utils.Util;
-import walk.TemplateHuman;
-import walk.TemplatesHumanSteps;
+import helpers.Util;
+import helpers.TemplateHuman;
+import helpers.TemplatesHumanSteps;
 
 import java.util.*;
 
-public class Human extends AbstractFlesh implements Entity {
+public class FleshHuman extends FleshIAbstract implements EntityI {
 
     private boolean isMale; //only zombies don't have sex ((
     private boolean isWeapon;
@@ -17,14 +18,14 @@ public class Human extends AbstractFlesh implements Entity {
 
     private final static int HUMAN_STEPS_DEAD = 50;
 
-    public Human(Location location) {
+    public FleshHuman(Location location) {
         super(EntityType.HUMAN,location);
         steps = new Steps(HUMAN_STEPS_DEAD);
         this.isMale = Util.getRandom();
     }
 
     //this constructor need for compare TemplatesHumanSteps
-    public Human(boolean isMale, boolean isWeapon, Steps steps) {
+    public FleshHuman(boolean isMale, boolean isWeapon, Steps steps) {
         super(EntityType.HUMAN, null);
         this.isMale = isMale;
         this.isWeapon = isWeapon;
@@ -39,8 +40,8 @@ public class Human extends AbstractFlesh implements Entity {
         return isWeapon;
     }
 
-    public Map<Location, Entity> walk(Map<Location, Entity> around) {
-        Map<Location, Entity> current = new HashMap<>();
+    public Map<Location, EntityI> walk(Map<Location, EntityI> around) {
+        Map<Location, EntityI> current = new HashMap<>();
         current.put(currentLocation, this);
         //if human is dead then skip walk
         if (isDead) return current;
@@ -51,10 +52,10 @@ public class Human extends AbstractFlesh implements Entity {
         steps.reduceSteps();
 
         currentVariantsSteps = new ArrayList<TemplateHuman>();
-        for (Map.Entry<Location, Entity> e: around.entrySet()){
-            Entity entity = e.getValue();
+        for (Map.Entry<Location, EntityI> e: around.entrySet()){
+            EntityI entityI = e.getValue();
             TemplateHuman possibleVariantsStep = 
-                    new TemplateHuman(this, entity, 0);
+                    new TemplateHuman(this, entityI, 0);
             if (TemplatesHumanSteps.templatesHumanSteps.contains(possibleVariantsStep)) {
                 currentVariantsSteps.add(possibleVariantsStep); 
             }
@@ -63,8 +64,8 @@ public class Human extends AbstractFlesh implements Entity {
 
         //get the best variant of step
         Collections.sort(currentVariantsSteps, TemplateHuman.getCompByScore());
-        Entity currentEntity = currentVariantsSteps.get(0).getEntity();
-        switch (currentEntity.getType()) {
+        EntityI currentEntityI = currentVariantsSteps.get(0).getEntityI();
+        switch (currentEntityI.getType()) {
             case TAKO:
                 Island.createNewEntity(EntityType.TAKO);
                 resetStepsToDead();
@@ -77,7 +78,7 @@ public class Human extends AbstractFlesh implements Entity {
                 return current;
         }
         current.remove(currentLocation);
-        currentLocation = Util.getKeyByValue(around, currentEntity);
+        currentLocation = Util.getKeyByValue(around, currentEntityI);
         current.put(currentLocation, this);
         return current;
     }
@@ -85,18 +86,18 @@ public class Human extends AbstractFlesh implements Entity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Human)) return false;
+        if (!(o instanceof FleshHuman)) return false;
 
         if (isDead) return false;
 
-        Human human = (Human) o;
+        FleshHuman fleshHuman = (FleshHuman) o;
 
-        if (isMale != human.isMale) return false;
-//        if (steps.getCurrentStepRange() != human.steps.getCurrentStepRange()) {
+        if (isMale != fleshHuman.isMale) return false;
+//        if (steps.getCurrentStepRange() != fleshHuman.steps.getCurrentStepRange()) {
 //            return false;
 //        }
-        if (!this.steps.equals(human.steps)) return false;
-        return isWeapon == human.isWeapon;
+        if (!this.steps.equals(fleshHuman.steps)) return false;
+        return isWeapon == fleshHuman.isWeapon;
     }
 
     @Override

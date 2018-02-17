@@ -1,8 +1,10 @@
 package entities;
 
-public class Blank extends AbstractEntity implements Material{
-    public Blank() {
-        super(EntityType.BLANK);
+import helpers.EntityType;
+
+public class MaterialTako extends AbstractEntity implements MaterialI {
+    public MaterialTako() {
+        super(EntityType.TAKO);
     }
 
     @Override
@@ -13,6 +15,6 @@ public class Blank extends AbstractEntity implements Material{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        return o instanceof Blank;
+        return o instanceof MaterialTako;
     }
 }

@@ -1,7 +1,9 @@
-package entities;
+package helpers;
 
 import com.diogonunes.jcdp.color.ColoredPrinter;
 import com.diogonunes.jcdp.color.api.Ansi;
+import entities.EntityI;
+import entities.FleshHuman;
 
 //Utility Enum class for print entities
 
@@ -64,17 +66,17 @@ public enum EntityType {
     public abstract void printEntity ();
 
     //method for print map
-    public void printEntity (Entity entity) {
-        //Human entity print field
-        if (entity.getType() == EntityType.HUMAN){
-            Human human = (Human) entity;
+    public void printEntity (EntityI entityI) {
+        //FleshHuman entityI print field
+        if (entityI.getType() == EntityType.HUMAN){
+            FleshHuman fleshHuman = (FleshHuman) entityI;
             String displayHuman = "H";
-            if (human.isMale()) {
+            if (fleshHuman.isMale()) {
                 displayHuman += "M";
             } else {
                 displayHuman += "F";
             }
-            if (human.isWeapon()) {
+            if (fleshHuman.isWeapon()) {
                 displayHuman += "W";
             } else {
                 displayHuman += "-";

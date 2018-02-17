@@ -1,8 +1,10 @@
 package entities;
 
-public class Tako extends AbstractEntity implements Material {
-    public Tako() {
-        super(EntityType.TAKO);
+import helpers.EntityType;
+
+public class EntityBlank extends AbstractEntity implements MaterialI {
+    public EntityBlank() {
+        super(EntityType.BLANK);
     }
 
     @Override
@@ -13,6 +15,6 @@ public class Tako extends AbstractEntity implements Material {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        return o instanceof Tako;
+        return o instanceof EntityBlank;
     }
 }

@@ -1,6 +1,8 @@
 package entities;
 
-public abstract class AbstractEntity implements Entity {
+import helpers.EntityType;
+
+public abstract class AbstractEntity implements EntityI {
 
     protected final EntityType type;
 

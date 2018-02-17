@@ -1,8 +1,8 @@
 package map;
 
 import entities.*;
-import utils.Util;
-import walk.TemplateHuman;
+import helpers.EntityType;
+import helpers.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Island {
 
-    private static Map<Location, Entity> entities = new HashMap<Location, Entity>();
+    private static Map<Location, EntityI> entities = new HashMap<Location, EntityI>();
     private static int width;
     private static int height;
 
@@ -26,17 +26,17 @@ public class Island {
         initBlankFields();
     }
 
-    public static Map<Location, Entity> getEntities() {
+    public static Map<Location, EntityI> getEntities() {
         return entities;
     }
 
     public static void createNewEntity(EntityType type) {
         Location location;
-        Map<Location, Entity> blank = new HashMap<>();
+        Map<Location, EntityI> blank = new HashMap<>();
         // get all blank entities
         List<Location> blankLocations = new ArrayList<>();
-        for (Map.Entry<Location, Entity> e: entities.entrySet()){
-            if (e.getValue() instanceof Blank) {
+        for (Map.Entry<Location, EntityI> e: entities.entrySet()){
+            if (e.getValue() instanceof EntityBlank) {
                 blankLocations.add(e.getKey());
             }
         }
@@ -45,9 +45,9 @@ public class Island {
         Location randomLocation = blankLocations.get(Util.getRandom(blank.size()));
         // Create new entity
         if (type == EntityType.HUMAN) {
-            entities.put(randomLocation, new Human(randomLocation));
+            entities.put(randomLocation, new FleshHuman(randomLocation));
         } else {
-            entities.put(randomLocation, new Tako());
+            entities.put(randomLocation, new MaterialTako());
         }
     }
 
@@ -59,19 +59,19 @@ public class Island {
             } while (entities.containsKey(location));
             switch (type) {
                 case STONE:
-                    entities.put(location, new Stone());
+                    entities.put(location, new MaterialStone());
                     break;
                 case WEAPON:
-                    entities.put(location, new Weapon());
+                    entities.put(location, new MaterialWeapon());
                     break;
                 case TAKO:
-                    entities.put(location, new Tako());
+                    entities.put(location, new MaterialTako());
                     break;
                 case ZOMBIE:
-                    entities.put(location, new Zombie(location));
+                    entities.put(location, new FleshZombie(location));
                     break;
                 case HUMAN:
-                    entities.put(location, new Human(location));
+                    entities.put(location, new FleshHuman(location));
                     break;
                 default:
                     return;
@@ -86,7 +86,7 @@ public class Island {
             for (int x = 0; x < width; x++) {
                 location = new Location(x, y);
                 if (entities.get(location) == null) {
-                    entities.put(location, new Blank());
+                    entities.put(location, new EntityBlank());
                 }
             }
         }
@@ -94,7 +94,7 @@ public class Island {
 
     public void printIsland() {
         Location location;
-        Entity entity;
+        EntityI entityI;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 location = new Location(x, y);
@@ -111,11 +111,11 @@ public class Island {
 
     private int getCountEntity(EntityType type) {
         int i = 0;
-        for (Map.Entry<Location, Entity> e: entities.entrySet()){
-            Entity currentEntity = e.getValue();
-            // Step of itteration skip if current Human o Zombie is dead
-            if (currentEntity instanceof Flesh) {
-                if (((Flesh)currentEntity).isDead()) {
+        for (Map.Entry<Location, EntityI> e: entities.entrySet()){
+            EntityI currentEntityI = e.getValue();
+            // Step of itteration skip if current FleshHuman o FleshZombie is dead
+            if (currentEntityI instanceof FleshI) {
+                if (((FleshI) currentEntityI).isDead()) {
                     continue;
                 }
             }
@@ -125,13 +125,13 @@ public class Island {
     }
 
     public boolean turn() {
-        for (Map.Entry<Location, Entity> e: entities.entrySet()){
-            Entity entity = e.getValue();
-            if (entity instanceof Material) continue; // Material don't walk
-            Flesh flesh = (Flesh) entity;
-            Location beforeLocation = flesh.getLocation();
-            Map<Location, Entity> newField = flesh.walk(getAroundEntities(e.getKey()));
-            entities.put(beforeLocation, new Blank());
+        for (Map.Entry<Location, EntityI> e: entities.entrySet()){
+            EntityI entityI = e.getValue();
+            if (entityI instanceof MaterialI) continue; // MaterialI don't walk
+            FleshI fleshI = (FleshI) entityI;
+            Location beforeLocation = fleshI.getLocation();
+            Map<Location, EntityI> newField = fleshI.walk(getAroundEntities(e.getKey()));
+            entities.put(beforeLocation, new EntityBlank());
             entities.putAll(newField);
 //            printIsland();
         }
@@ -149,10 +149,10 @@ public class Island {
         return true;
     }
 
-    private  Map<Location, Entity> getAroundEntities(Location point) {
+    private  Map<Location, EntityI> getAroundEntities(Location point) {
         int x = point.getX(), y = point.getY();
         int x1, y1;
-        Map<Location, Entity> around = new HashMap<>();
+        Map<Location, EntityI> around = new HashMap<>();
         Location location;
         for (int i = -1; i < 2; i++){
             x1 = x + i;
